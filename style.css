@@ -1,0 +1,884 @@
+/* ============================================================
+   RESET — УБИРАЕМ ВСЕ ЗАДЕРЖКИ И ПОДСВЕТКИ
+   ============================================================ */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none;
+    outline: none !important;
+}
+
+button, a, input, select {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-appearance: none;
+    outline: none !important;
+}
+
+button:focus, a:focus, input:focus, select:focus {
+    outline: none !important;
+}
+
+/* ============================================================
+   CSS VARIABLES — DARK & LIGHT THEMES
+   ============================================================ */
+:root {
+    --transition-theme: 0.35s ease;
+}
+
+[data-theme="dark"] {
+    --bg-main: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    --bg-card: rgba(255,255,255,0.07);
+    --bg-card-border: rgba(255,255,255,0.1);
+    --bg-display: rgba(0,0,0,0.3);
+    --bg-btn: rgba(255,255,255,0.08);
+    --bg-btn-active: rgba(255,255,255,0.22);
+    --bg-operator: rgba(102,126,234,0.3);
+    --bg-operator-active: rgba(102,126,234,0.55);
+    --bg-clear: rgba(245,87,108,0.3);
+    --bg-clear-active: rgba(245,87,108,0.55);
+    --bg-backspace: rgba(253,160,133,0.3);
+    --bg-backspace-active: rgba(253,160,133,0.55);
+    --bg-equals: linear-gradient(135deg, #667eea, #764ba2);
+    --bg-equals-active: linear-gradient(135deg, #5566cc, #5e3a88);
+    --bg-result-box: rgba(102,126,234,0.15);
+    --border-result-box: rgba(102,126,234,0.3);
+    --bg-unit-row: rgba(255,255,255,0.04);
+    --bg-input: rgba(0,0,0,0.3);
+    --border-input: rgba(255,255,255,0.15);
+    --bg-modal: linear-gradient(145deg, #1e1b3a, #252249);
+    --border-modal: rgba(255,255,255,0.1);
+    --bg-modal-btn: rgba(255,255,255,0.08);
+    --bg-email: rgba(102,126,234,0.2);
+    --border-email: rgba(102,126,234,0.4);
+    --color-email: #7fa1ff;
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --text-muted: #888888;
+    --text-accent: #a8b5ff;
+    --text-operator: #a8b5ff;
+    --text-clear: #ff8a9e;
+    --text-backspace: #fda085;
+    --text-copyright: #f5576c;
+    --text-green: #6dd5a0;
+    --color-divider: rgba(255,255,255,0.08);
+    --bg-tab: transparent;
+    --bg-tab-active: linear-gradient(135deg, #667eea, #764ba2);
+    --shadow-tab: 0 4px 15px rgba(102,126,234,0.4);
+    --bg-subtab: transparent;
+    --bg-subtab-active: rgba(102,126,234,0.2);
+    --border-subtab: rgba(255,255,255,0.1);
+    --border-subtab-active: #667eea;
+    --bg-std-active: rgba(102,126,234,0.3);
+    --border-std-active: #667eea;
+    --bg-toggle-track: rgba(255,255,255,0.15);
+    --bg-toggle-thumb: #fff;
+    --bg-swap: rgba(102,126,234,0.3);
+    --bg-swap-active: rgba(102,126,234,0.55);
+    --bg-overlay: rgba(0,0,0,0.7);
+    --bg-fr-item: rgba(255,255,255,0.05);
+    --bg-fr-highlight: rgba(102,126,234,0.2);
+    --border-fr-highlight: rgba(102,126,234,0.3);
+    --bg-tabs-bar: rgba(255,255,255,0.05);
+    --bg-icon-btn: rgba(255,255,255,0.07);
+    --border-icon-btn: rgba(255,255,255,0.15);
+    --color-icon-btn: #aaa;
+    --scrollbar-thumb: rgba(255,255,255,0.15);
+}
+
+[data-theme="light"] {
+    --bg-main: linear-gradient(135deg, #e8eaf6, #f5f5f5, #e3e7f1);
+    --bg-card: rgba(255,255,255,0.85);
+    --bg-card-border: rgba(0,0,0,0.08);
+    --bg-display: rgba(0,0,0,0.05);
+    --bg-btn: rgba(0,0,0,0.06);
+    --bg-btn-active: rgba(0,0,0,0.15);
+    --bg-operator: rgba(102,126,234,0.15);
+    --bg-operator-active: rgba(102,126,234,0.35);
+    --bg-clear: rgba(245,87,108,0.15);
+    --bg-clear-active: rgba(245,87,108,0.35);
+    --bg-backspace: rgba(253,160,133,0.2);
+    --bg-backspace-active: rgba(253,160,133,0.4);
+    --bg-equals: linear-gradient(135deg, #667eea, #764ba2);
+    --bg-equals-active: linear-gradient(135deg, #5566cc, #5e3a88);
+    --bg-result-box: rgba(102,126,234,0.1);
+    --border-result-box: rgba(102,126,234,0.25);
+    --bg-unit-row: rgba(0,0,0,0.03);
+    --bg-input: rgba(255,255,255,0.9);
+    --border-input: rgba(0,0,0,0.12);
+    --bg-modal: linear-gradient(145deg, #ffffff, #f0f0f5);
+    --border-modal: rgba(0,0,0,0.1);
+    --bg-modal-btn: rgba(0,0,0,0.06);
+    --bg-email: rgba(102,126,234,0.12);
+    --border-email: rgba(102,126,234,0.35);
+    --color-email: #4a6acf;
+    --text-primary: #1a1a2e;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --text-accent: #4a6acf;
+    --text-operator: #4a6acf;
+    --text-clear: #d63050;
+    --text-backspace: #c06030;
+    --text-copyright: #d63050;
+    --text-green: #2ea060;
+    --color-divider: rgba(0,0,0,0.08);
+    --bg-tab: transparent;
+    --bg-tab-active: linear-gradient(135deg, #667eea, #764ba2);
+    --shadow-tab: 0 4px 15px rgba(102,126,234,0.3);
+    --bg-subtab: transparent;
+    --bg-subtab-active: rgba(102,126,234,0.12);
+    --border-subtab: rgba(0,0,0,0.1);
+    --border-subtab-active: #667eea;
+    --bg-std-active: rgba(102,126,234,0.15);
+    --border-std-active: #667eea;
+    --bg-toggle-track: rgba(0,0,0,0.12);
+    --bg-toggle-thumb: #fff;
+    --bg-swap: rgba(102,126,234,0.15);
+    --bg-swap-active: rgba(102,126,234,0.35);
+    --bg-overlay: rgba(0,0,0,0.4);
+    --bg-fr-item: rgba(0,0,0,0.04);
+    --bg-fr-highlight: rgba(102,126,234,0.12);
+    --border-fr-highlight: rgba(102,126,234,0.25);
+    --bg-tabs-bar: rgba(0,0,0,0.05);
+    --bg-icon-btn: rgba(0,0,0,0.06);
+    --border-icon-btn: rgba(0,0,0,0.1);
+    --color-icon-btn: #666;
+    --scrollbar-thumb: rgba(0,0,0,0.15);
+}
+
+/* ============================================================
+   BODY
+   ============================================================ */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text-primary);
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background var(--transition-theme);
+}
+
+.app {
+    width: 100%;
+    max-width: 520px;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    gap: 10px;
+}
+
+.header-left {
+    flex-shrink: 0;
+}
+
+.header-center {
+    flex: 1;
+    text-align: center;
+}
+
+.header-center h1 {
+    font-size: 1.35rem;
+    background: linear-gradient(90deg, #f093fb, #f5576c, #fda085);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+.header-right {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+/* ===== Icon Buttons ===== */
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border-icon-btn);
+    background: var(--bg-icon-btn);
+    color: var(--color-icon-btn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: none;
+    touch-action: manipulation;
+}
+
+.icon-btn:active {
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+/* ============================================================
+   iOS-STYLE THEME TOGGLE
+   ============================================================ */
+.theme-toggle {
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.toggle-track {
+    width: 56px;
+    height: 30px;
+    background: var(--bg-toggle-track);
+    border-radius: 15px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+    transition: background 0.3s ease;
+}
+
+[data-theme="dark"] .toggle-track {
+    background: #4a4a6a;
+}
+
+[data-theme="light"] .toggle-track {
+    background: #fbbf24;
+}
+
+.toggle-icon {
+    font-size: 14px;
+    z-index: 1;
+    line-height: 1;
+}
+
+.toggle-thumb {
+    position: absolute;
+    top: 3px;
+    width: 24px;
+    height: 24px;
+    background: var(--bg-toggle-thumb);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    transition: left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] .toggle-thumb {
+    left: 29px;
+}
+
+[data-theme="light"] .toggle-thumb {
+    left: 3px;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal {
+    background: var(--bg-modal);
+    border: 1px solid var(--border-modal);
+    border-radius: 20px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: modalPop 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 22px 0;
+}
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: var(--bg-modal-btn);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    transition: none;
+}
+
+.modal-close:active {
+    opacity: 0.5;
+}
+
+.modal-body {
+    padding: 18px 22px 24px;
+}
+
+.modal-info-table {
+    background: var(--bg-unit-row);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.info-value {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.info-value.mono {
+    font-family: 'SF Mono', 'Courier New', monospace;
+    color: var(--text-accent);
+}
+
+.modal-text {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 8px;
+}
+
+.modal-text.small {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.modal-text strong {
+    color: var(--text-accent);
+}
+
+.modal-copyright {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-copyright);
+    margin-bottom: 8px;
+}
+
+.modal-section-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 12px 0 6px;
+}
+
+.modal-divider {
+    height: 1px;
+    background: var(--color-divider);
+    margin: 16px 0;
+}
+
+/* Email Link */
+.email-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 14px 20px;
+    background: var(--bg-email);
+    border: 1px solid var(--border-email);
+    border-radius: 14px;
+    color: var(--color-email);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: none;
+}
+
+.email-link:active {
+    opacity: 0.6;
+    transform: scale(0.97);
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+.tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-tabs-bar);
+    border-radius: 16px;
+    padding: 5px;
+    margin-bottom: 20px;
+    transition: background var(--transition-theme);
+}
+
+.tab {
+    flex: 1;
+    padding: 10px 6px;
+    border: none;
+    background: var(--bg-tab);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: none;
+    touch-action: manipulation;
+}
+
+.tab:active {
+    opacity: 0.6;
+}
+
+.tab.active {
+    background: var(--bg-tab-active);
+    color: #fff;
+    box-shadow: var(--shadow-tab);
+}
+
+/* ============================================================
+   SECTIONS
+   ============================================================ */
+.calculator-section {
+    display: none;
+}
+
+.calculator-section.active {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   BASIC CALCULATOR
+   ============================================================ */
+.basic-calc {
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 20px;
+    border: 1px solid var(--bg-card-border);
+    transition: background var(--transition-theme), border-color var(--transition-theme);
+}
+
+.display {
+    background: var(--bg-display);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    overflow: hidden;
+    transition: background var(--transition-theme);
+}
+
+.display-expression {
+    color: var(--text-muted);
+    font-size: 1rem;
+    min-height: 24px;
+    word-break: break-all;
+}
+
+.display-result {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    word-break: break-all;
+    transition: color var(--transition-theme);
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+/* ===== КНОПКИ — МГНОВЕННЫЕ, БЕЗ ЗАДЕРЖЕК ===== */
+.btn {
+    padding: 18px;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--bg-btn);
+    color: var(--text-primary);
+    transition: none !important;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.btn:active {
+    background: var(--bg-btn-active);
+    transform: scale(0.92);
+}
+
+.btn-operator {
+    background: var(--bg-operator);
+    color: var(--text-operator);
+}
+.btn-operator:active {
+    background: var(--bg-operator-active);
+    transform: scale(0.92);
+}
+
+.btn-clear {
+    background: var(--bg-clear);
+    color: var(--text-clear);
+}
+.btn-clear:active {
+    background: var(--bg-clear-active);
+    transform: scale(0.92);
+}
+
+.btn-backspace {
+    background: var(--bg-backspace);
+    color: var(--text-backspace);
+}
+.btn-backspace:active {
+    background: var(--bg-backspace-active);
+    transform: scale(0.92);
+}
+
+.btn-equals {
+    background: var(--bg-equals);
+    color: #fff;
+}
+.btn-equals:active {
+    background: var(--bg-equals-active);
+    transform: scale(0.92);
+}
+
+/* ============================================================
+   CONVERTER CARDS
+   ============================================================ */
+.converter-card {
+    background: var(--bg-card);
+    border-radius: 24px;
+    padding: 24px;
+    border: 1px solid var(--bg-card-border);
+    transition: background var(--transition-theme), border-color var(--transition-theme);
+}
+
+.converter-card h2 {
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.converter-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.input-group {
+    flex: 1;
+    min-width: 120px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-input);
+    border-radius: 12px;
+    background: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border 0.2s;
+    touch-action: manipulation;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.15);
+}
+
+.input-group select option {
+    background: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.swap-btn {
+    padding: 12px 16px;
+    background: var(--bg-swap);
+    border: none;
+    border-radius: 12px;
+    color: var(--text-accent);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: none;
+    touch-action: manipulation;
+    margin-bottom: 1px;
+}
+.swap-btn:active {
+    background: var(--bg-swap-active);
+    transform: rotate(180deg);
+}
+
+/* ===== Result Box ===== */
+.result-box {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--bg-result-box);
+    border-radius: 14px;
+    border: 1px solid var(--border-result-box);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background var(--transition-theme);
+}
+
+.result-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.result-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-accent);
+}
+
+/* ===== All Units Table ===== */
+.all-units {
+    margin-top: 16px;
+    display: grid;
+    gap: 6px;
+}
+
+.unit-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg-unit-row);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    transition: background var(--transition-theme);
+}
+
+.unit-row .unit-name { color: var(--text-secondary); }
+.unit-row .unit-val {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-family: 'SF Mono', 'Courier New', monospace;
+}
+
+/* ===== Data Standard Toggle ===== */
+.data-standard-toggle {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.std-btn {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border-input);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: none;
+    touch-action: manipulation;
+}
+
+.std-btn.active {
+    background: var(--bg-std-active);
+    border-color: var(--border-std-active);
+    color: var(--text-primary);
+}
+
+/* ============================================================
+   FINANCE
+   ============================================================ */
+.sub-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.sub-tab {
+    flex: 1;
+    padding: 10px 8px;
+    border: 1px solid var(--border-subtab);
+    background: var(--bg-subtab);
+    color: var(--text-secondary);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: none;
+    touch-action: manipulation;
+}
+
+.sub-tab.active {
+    background: var(--bg-subtab-active);
+    border-color: var(--border-subtab-active);
+    color: var(--text-primary);
+}
+
+.finance-panel { display: none; }
+.finance-panel.active { display: block; }
+
+.finance-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.calc-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: var(--bg-equals);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: none;
+    touch-action: manipulation;
+}
+
+.calc-btn:active {
+    opacity: 0.7;
+    transform: scale(0.97);
+}
+
+.finance-results { margin-top: 20px; }
+
+.finance-result-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.fr-item {
+    padding: 14px;
+    background: var(--bg-fr-item);
+    border-radius: 12px;
+    text-align: center;
+    transition: background var(--transition-theme);
+}
+
+.fr-item .fr-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.fr-item .fr-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-accent);
+}
+
+.fr-item.highlight {
+    background: var(--bg-fr-highlight);
+    border: 1px solid var(--border-fr-highlight);
+    grid-column: 1 / -1;
+}
+
+.fr-item.highlight .fr-value {
+    font-size: 1.4rem;
+    color: var(--text-copyright);
+}
+
+.fr-item.green .fr-value {
+    color: var(--text-green);
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+.modal::-webkit-scrollbar { width: 4px; }
+.modal::-webkit-scrollbar-track { background: transparent; }
+.modal::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 500px) {
+    .converter-row { flex-direction: column; }
+    .swap-btn { align-self: center; }
+    .finance-inputs { grid-template-columns: 1fr; }
+    .tab { font-size: 0.7rem; padding: 8px 4px; }
+    .display-result { font-size: 2rem; }
+    .header-center h1 { font-size: 1.1rem; }
+    .icon-btn { width: 34px; height: 34px; }
+    .icon-btn svg { width: 18px; height: 18px; }
+    .toggle-track { width: 50px; height: 28px; }
+    .toggle-thumb { width: 22px; height: 22px; }
+    [data-theme="dark"] .toggle-thumb { left: 25px; }
+  }
